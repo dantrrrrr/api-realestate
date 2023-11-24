@@ -6,15 +6,13 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
 // Middleware to parse incoming JSON
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-    optionsSuccessStatus: 200,
-  })
-);
+app.use(cors());
 // Connect to the database
 connectDB();
 
