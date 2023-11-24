@@ -7,12 +7,14 @@ dotenv.config();
 
 const app = express();
 const corsOptions = {
-  origin: "*",
+  origin: ["http://localhost:3000", "https://realestate-devtruong.vercel.app"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200,
+  credentials: true,
 };
 // Middleware to parse incoming JSON
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 // Connect to the database
 connectDB();
 
