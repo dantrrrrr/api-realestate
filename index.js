@@ -2,14 +2,19 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import apiRoutes from "./routes/index.js";
-
+import cors from "cors";
 dotenv.config();
 
 const app = express();
 
 // Middleware to parse incoming JSON
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+  })
+);
 // Connect to the database
 connectDB();
 
@@ -17,7 +22,7 @@ connectDB();
 app.use("/api", apiRoutes);
 
 // Start the server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3333;
 app.listen(port, () => {
   console.log("Server running on port " + port);
 });
