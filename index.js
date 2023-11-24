@@ -8,8 +8,8 @@ dotenv.config();
 const app = express();
 const corsOptions = {
   origin: ["http://localhost:3000", "https://realestate-devtruong.vercel.app"],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  optionsSuccessStatus: 200,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  headers: "Content-Type",
   credentials: true,
 };
 // Middleware to parse incoming JSON
