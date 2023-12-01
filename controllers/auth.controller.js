@@ -107,3 +107,11 @@ function generateToken(data) {
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "48h" });
   return token;
 }
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json("User have been logout");
+  } catch (error) {
+    next(error);
+  }
+};
