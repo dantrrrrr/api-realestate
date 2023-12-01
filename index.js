@@ -22,7 +22,11 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 // Connect to the database
 connectDB();
-
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "https://your-frontend-app.com");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 // Define your API routes
 app.use("/api", apiRoutes);
 

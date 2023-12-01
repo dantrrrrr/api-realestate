@@ -35,7 +35,11 @@ export const signin = async (req, res, next) => {
     const token = generateToken(user);
     const { password: pass, ...rest } = user._doc;
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
       .status(200)
       .json(rest);
     // res.status(200).json({ token, message: "User signed in successfully" });
