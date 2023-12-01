@@ -10,6 +10,13 @@ export const updateUser = async (req, res, next) => {
     return next(errorHandler(401, "You can only update your account"));
   }
   try {
+    const isNotValidUpdateUser = await User.findOne({
+      $or: [{ username: req.body.username }, { email: req.body.email }],
+      _id: { $ne: req.user.userId },
+    });
+    if (isNotValidUpdateUser) {
+      return next(errorHandler(409, "Please choose another username or email"));
+    }
     if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
