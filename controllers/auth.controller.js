@@ -51,7 +51,10 @@ export const signin = async (req, res, next) => {
 export const google = async (req, res, next) => {
   try {
     const { name, email, photo } = req.body;
-    console.log("🚀 ~ file: auth.controller.js:54 ~ google ~ req.body:", req.body)
+    console.log(
+      "🚀 ~ file: auth.controller.js:54 ~ google ~ req.body:",
+      req.body
+    );
     const user = await User.findOne({ email });
     if (user) {
       const token = generateToken(user);
@@ -62,8 +65,13 @@ export const google = async (req, res, next) => {
         .status(200)
         .json(rest);
     } else {
-      const generatePassword = Math.random().toString(36).slice(-8)+ Math.random().toString(36).slice(-8);
-      console.log("🚀 ~ file: auth.controller.js:65 ~ google ~ generatePassword:", generatePassword)
+      const generatePassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      console.log(
+        "🚀 ~ file: auth.controller.js:65 ~ google ~ generatePassword:",
+        generatePassword
+      );
       const hashedPassword = bcryptjs.hashSync(generatePassword, 10);
       const newUser = new User({
         username:

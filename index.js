@@ -1,28 +1,33 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+
 import connectDB from "./config/db.js";
 import apiRoutes from "./routes/index.js";
-import cors from "cors";
+import { corsOptions } from "./utils/cors.js";
+import { swaggerDocs } from "./utils/swagger.js";
 dotenv.config();
+const port = process.env.PORT || 3333;
 
 const app = express();
-const corsOptions = {
-  origin: ["http://localhost:3000", "https://realestate-devtruong.vercel.app"],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-  headers: "Content-Type",
-  credentials: true,
-};
+
 // Middleware to parse incoming JSON
 app.use(express.json());
+//cors
 app.use(cors(corsOptions));
+//cookieParser
+
+app.use(cookieParser());
 // Connect to the database
 connectDB();
 
 // Define your API routes
 app.use("/api", apiRoutes);
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Start the server
-const port = process.env.PORT || 3333;
 app.listen(port, () => {
   console.log("Server running on port " + port);
 });
