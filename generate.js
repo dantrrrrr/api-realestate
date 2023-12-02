@@ -1,6 +1,7 @@
 // api/generate.js
 import fs from 'fs';
 import path from 'path';
+import chalk from 'chalk';
 
 const generateRoute = async (action, modelName) => {
   const scriptPath = new URL(import.meta.url).pathname;
@@ -56,9 +57,14 @@ const generateRoute = async (action, modelName) => {
   // Write back to the route file
   await fs.promises.writeFile(routeFileName, routeFileContent);
 
+  // Log status with colors and path information
+  const controllerPath = path.relative(process.cwd(), controllerFileName);
+  const routePath = path.relative(process.cwd(), routeFileName);
   console.log(
-    `Route and controller for ${camelCaseFunctionName} generated successfully.`
+    chalk.green(`Route and controller for ${camelCaseFunctionName} generated successfully.`)
   );
+  console.log(chalk.blue(`Controller file created/updated at: ${controllerPath}`));
+  console.log(chalk.blue(`Route file created/updated at: ${routePath}`));
 };
 
 // Example usage: node generate.js get product
