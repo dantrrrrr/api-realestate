@@ -63,3 +63,20 @@ export const getUserListings = async (req, res, next) => {
     return next(errorHandler(401, "You can only view your own listings!"));
   }
 };
+
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id); // Assuming you are looking for a user by ID
+
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+
+    const { password, ...others } = user._doc;
+
+    res.status(200).json(others);
+  } catch (error) {
+    console.error("Error in getUser controller:", error);
+    return next(errorHandler(500, "Internal Server Error"));
+  }
+};
