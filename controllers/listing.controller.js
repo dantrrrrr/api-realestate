@@ -10,6 +10,7 @@ export const createListing = async (req, res, next) => {
   }
 };
 
+<<<<<<< HEAD
 export const deleteListing = async (req, res, next) => {
   const listing = await Listing.findById(req.params.id);
 
@@ -26,3 +27,6 @@ export const deleteListing = async (req, res, next) => {
     next(error);
   }
 };
+=======
+export const deleteListing = async (req, res, next) => {};
+>>>>>>> e901898c9025880ae9da9ea3ac7d37e0480ccf29
