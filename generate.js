@@ -45,19 +45,12 @@ const generateRoute = async (action, modelName) => {
     const routeRegex = new RegExp(`router.${camelCaseAction}\\("/${camelCaseAction.toLowerCase()}/:id", ${camelCaseFunctionName}\\);`);
     if (!routeRegex.test(routeFileContent)) {
       // Add the new route only if it doesn't exist
-      routeFileContent += `\nrouter.${camelCaseAction}("/${camelCaseAction.toLowerCase()}/:id", ${camelCaseFunctionName});`;
+      routeFileContent = routeFileContent.replace(/\bexport\s+default\s+router;/, `router.${camelCaseAction}("/${camelCaseAction.toLowerCase()}/:id", ${camelCaseFunctionName});\n\nexport default router;`);
     }
   } else {
     // If the route file doesn't exist, create a new one
     routeFileContent = `import express from 'express';\nconst router = express.Router();\n\n`;
-    routeFileContent += `\nrouter.${camelCaseAction}("/${camelCaseAction.toLowerCase()}/:id", ${camelCaseFunctionName});`;
-  }
-
-  // Check if the export default router line already exists
-  const exportDefaultRouterRegex = /\bexport\s+default\s+router;/;
-  if (!exportDefaultRouterRegex.test(routeFileContent)) {
-    // Add the export default router line only if it doesn't exist
-    routeFileContent += `\n\nexport default router;`;
+    routeFileContent += `router.${camelCaseAction}("/${camelCaseAction.toLowerCase()}/:id", ${camelCaseFunctionName});\n\nexport default router;`;
   }
 
   // Write back to the route file
