@@ -39,9 +39,14 @@ const router = express.Router();
  *        description: User updated successfully
  */
 router.put("/update/:id", verifyToken, updateUser);
+
+//delete own user
 router.delete("/delete/:id", verifyToken, deleteUser);
+
+//get all own listing
 router.get("/listing/:id", verifyToken, getUserListings);
 
+//get user info by id
 router.get("/get/:id", verifyToken, getUser);
 
 export default router;

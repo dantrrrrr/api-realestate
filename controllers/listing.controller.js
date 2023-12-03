@@ -60,3 +60,59 @@ export const getListing = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getListingsWithSearch = async (req, res, next) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+
+    let offer =
+      req.query.offer === "false"
+        ? false
+        : req.query.offer === "true"
+        ? true
+        : { $in: [false, true] };
+
+    let furnished =
+      req.query.furnished === "false"
+        ? false
+        : req.query.furnished === "true"
+        ? true
+        : { $in: [false, true] };
+
+    let parking =
+      req.query.parking === "false"
+        ? false
+        : req.query.parking === "true"
+        ? true
+        : { $in: [false, true] };
+
+    let type =
+      req.query.type === "rent"
+        ? "rent"
+        : req.query.type === "sale"
+        ? sale
+        : { $in: ["sale", "rent"] };
+
+    const searchTerm = req.query.searchTerm || "";
+
+    const sort = req.query.sort || "createdAt";
+
+    const order = req.query.order || "desc";
+
+    const listings = await Listing.find({
+      name: { $regex: searchTerm, $options: "i" },
+      offer,
+      furnished,
+      parking,
+      type,
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+
+    return res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+};
